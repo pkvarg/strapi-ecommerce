@@ -27,6 +27,8 @@ const Item = ({ item, width }) => {
     },
   } = image
 
+  console.log(category)
+
   return (
     <Box width={width}>
       <Box
@@ -38,7 +40,7 @@ const Item = ({ item, width }) => {
           alt={item.name}
           width='300px'
           height='400px'
-          src={`http://localhost:2000${url}`}
+          src={`http://localhost:1337${url}`}
           onClick={() => navigate(`/item/${item.id}`)}
           style={{ cursor: 'pointer' }}
         />
@@ -79,12 +81,13 @@ const Item = ({ item, width }) => {
 
       <Box mt='3px'>
         <Typography variant='subtitle2' color={neutral.dark}>
-          {category
+          {/* {category
             .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, (str) => str.toUpperCase())}
+            .replace(/^./, (str) => str.toUpperCase())} */}
+          {category}
         </Typography>
         <Typography>{name}</Typography>
-        <Typography fontWeight='bold'>${price}</Typography>
+        <Typography fontWeight='bold'>{price} &euro;</Typography>
       </Box>
     </Box>
   )
