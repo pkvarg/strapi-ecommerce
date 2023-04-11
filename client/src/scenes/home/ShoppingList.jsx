@@ -12,7 +12,6 @@ const ShoppingList = () => {
   const dispatch = useDispatch()
   const [value, setValue] = useState('all')
   const items = useSelector((state) => state.cart.items)
-  console.log('items:', items)
   const breakPoint = useMediaQuery('(min-width:600px)')
 
   const handleChange = (event, newValue) => {

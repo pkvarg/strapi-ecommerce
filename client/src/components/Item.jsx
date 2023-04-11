@@ -27,8 +27,6 @@ const Item = ({ item, width }) => {
     },
   } = image
 
-  console.log(category)
-
   return (
     <Box width={width}>
       <Box
