@@ -51,7 +51,10 @@ const Navbar = () => {
           <IconButton sx={{ color: 'black' }}>
             <SearchOutlined />
           </IconButton>
-          <IconButton sx={{ color: 'black' }}>
+          <IconButton
+            onClick={() => navigate('/login')}
+            sx={{ color: 'black' }}
+          >
             <PersonOutline />
           </IconButton>
 
