@@ -46,6 +46,7 @@ const Login = () => {
       >
         {({ submitForm, isSubmitting }) => (
           <FormContainer sx={{ mx: '10%' }}>
+            <Box marginBottom='50px'>Login</Box>
             <FieldContainer
               as={TextField}
               name='email'
