@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
 import { Typography } from '@mui/material'
 import { Formik, Form, Field } from 'formik'
 import { Link, Box, TextField } from '@mui/material'
@@ -23,6 +24,32 @@ const SubmitButton = styled(Button)({
 })
 
 const Login = () => {
+  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const handleLogin = async (e) => {
+    //e.preventDefault()
+
+    try {
+      const response = await axios.post(
+        'https://pic-api.click/api/auth/local',
+        {
+          identifier: email,
+          password: password,
+        }
+      )
+
+      console.log(response.data) // Do something with the response data, like store a JWT token
+      const token = response.data.jwt
+      console.log(token)
+      if (token) {
+        localStorage.setItem('AUTH_TOKEN', token)
+      }
+    } catch (error) {
+      console.log(error.response.data) // Handle the error response
+    }
+  }
+
   return (
     <>
       <Formik
@@ -54,6 +81,7 @@ const Login = () => {
               label='Email'
               variant='outlined'
               fullWidth
+              onChange={(e) => setEmail(e.target.value)}
             />
             <FieldContainer
               as={TextField}
@@ -62,12 +90,13 @@ const Login = () => {
               label='Password'
               variant='outlined'
               fullWidth
+              onChange={(e) => setPassword(e.target.value)}
             />
             <SubmitButton
               variant='contained'
               color='primary'
               disabled={isSubmitting}
-              onClick={submitForm}
+              onClick={() => handleLogin()}
               sx={{ mt: 3 }}
             >
               {isSubmitting ? 'Logging in...' : 'Log in'}

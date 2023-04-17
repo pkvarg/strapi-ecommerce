@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
 import { Formik, Form, Field } from 'formik'
 import { TextField, Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
@@ -21,6 +22,40 @@ const SubmitButton = styled(Button)({
 })
 
 const SignUp = () => {
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+  })
+
+  const submitFormular = async () => {
+    //event.preventDefault();
+    try {
+      const response = await axios.post(
+        'https://pic-api.click/api/auth/local/register',
+        {
+          username: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }
+      )
+      console.log(response.data)
+      // redirect user to success page or login page
+    } catch (error) {
+      console.log(error)
+      // display error message to user
+    }
+  }
+
+  const handleInputChange = (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }))
+  }
+
+  console.log(formData)
+
   return (
     <Formik
       initialValues={{
@@ -63,6 +98,7 @@ const SignUp = () => {
             label='Name'
             variant='outlined'
             fullWidth
+            onChange={handleInputChange}
           />
           <FieldContainer
             as={TextField}
@@ -71,6 +107,7 @@ const SignUp = () => {
             label='Email'
             variant='outlined'
             fullWidth
+            onChange={handleInputChange}
           />
           <FieldContainer
             as={TextField}
@@ -79,6 +116,7 @@ const SignUp = () => {
             label='Password'
             variant='outlined'
             fullWidth
+            onChange={handleInputChange}
           />
           <FieldContainer
             as={TextField}
@@ -92,7 +130,7 @@ const SignUp = () => {
             variant='contained'
             color='primary'
             disabled={isSubmitting}
-            onClick={submitForm}
+            onClick={() => submitFormular()}
             sx={{ mt: 3 }}
           >
             {isSubmitting ? 'Signing up...' : 'Sign up'}
