@@ -6,6 +6,7 @@ import {
   ShoppingBagOutlined,
   MenuOutlined,
   SearchOutlined,
+  Logout,
 } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 import { shades } from '../../theme'
@@ -15,12 +16,19 @@ const Navbar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart.cart)
-  const [isLogged, setIsLogged] = useState({})
+  const [isLogged, setIsLogged] = useState(false)
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-    setIsLogged(userInfo)
-  }, [])
+    if (userInfo) {
+      setIsLogged(true)
+    }
+  }, [userInfo])
+
+  const logout = () => {
+    setIsLogged(false)
+    localStorage.removeItem('userInfo')
+  }
 
   return (
     <Box
@@ -57,13 +65,21 @@ const Navbar = () => {
           <IconButton sx={{ color: 'black' }}>
             <SearchOutlined />
           </IconButton>
-          {isLogged && <p>{isLogged.email}</p>}
-          <IconButton
-            onClick={() => navigate('/login')}
-            sx={{ color: 'black' }}
-          >
-            <PersonOutline />
-          </IconButton>
+          {isLogged ? (
+            <>
+              <p>{userInfo.email}</p>
+              <IconButton onClick={logout} sx={{ color: 'black' }}>
+                <Logout />
+              </IconButton>
+            </>
+          ) : (
+            <IconButton
+              onClick={() => navigate('/login')}
+              sx={{ color: 'black' }}
+            >
+              <PersonOutline />
+            </IconButton>
+          )}
 
           <Badge
             badgeContent={cart.length}

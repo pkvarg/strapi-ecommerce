@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import axios from 'axios'
 import { Typography } from '@mui/material'
 import { Formik, Form, Field } from 'formik'
 import { Link, Box, TextField } from '@mui/material'
 import { Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
+import { auth, provider } from './../../App'
+import { signInWithPopup } from 'firebase/auth'
+import { GoogleButton } from 'react-google-button'
 
 const FormContainer = styled(Form)({
   display: 'flex',
@@ -31,9 +33,10 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [googleUser, setGoogleUser] = useState('')
+
   const handleLogin = async (e) => {
     //e.preventDefault()
-
     try {
       const response = await axios.post(
         'https://pic-api.click/api/auth/local',
@@ -43,12 +46,13 @@ const Login = () => {
         }
       )
 
-      console.log(response.data) // Do something with the response data, like store a JWT token
+      // Do something with the response data, like store a JWT token
       const token = response.data.jwt
       const userInfo = {
         name: response.data.user.username,
         email: response.data.user.email,
         createdAt: response.data.user.createdAt,
+        isAdmin: false,
         token,
       }
       if (token) {
@@ -57,6 +61,35 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error.response.data) // Handle the error response
+    }
+  }
+
+  // Google Firebase
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider).then((result) => {
+      let userObject = result.user
+      const token = userObject.accessToken
+      setGoogleUser(userObject)
+      const data = {
+        name: userObject.displayName,
+        email: userObject.email,
+        createdAt: userObject.metadata.creationTime,
+        isAdmin: false,
+        token,
+      }
+      if (token) {
+        localStorage.setItem('userInfo', JSON.stringify(data))
+        navigate('/')
+      }
+      //dispatch(getGoogleUserInfo(data))
+    })
+  }
+
+  const handleGoogleSignIn = () => {
+    try {
+      signInWithGoogle()
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -119,6 +152,9 @@ const Login = () => {
           Forgot password?
         </Link>
         <Typography fontSize='20px'>Sign in with Google</Typography>
+        <div>
+          <GoogleButton onClick={handleGoogleSignIn} />
+        </div>
         <Link href='/sign-up' sx={{ align: 'center', cursor: 'pointer' }}>
           New customer? Register.
         </Link>

@@ -9,6 +9,15 @@ import CartMenu from './scenes/global/CartMenu'
 import Footer from './scenes/global/Footer'
 import Login from './scenes/login/Login'
 import SignUp from './scenes/login/SignUp'
+import { firebaseConfig } from './firebaseConfig'
+import { initializeApp } from 'firebase/app'
+import { getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { getAnalytics } from 'firebase/analytics'
+
+export const app = initializeApp(firebaseConfig)
+const analytics = getAnalytics(app)
+export const auth = getAuth(app)
+export const provider = new GoogleAuthProvider()
 
 const ScrollToTop = () => {
   const { pathname } = useLocation()

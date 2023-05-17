@@ -45,6 +45,9 @@ export const cartSlice = createSlice({
   },
 })
 
+// create state for login????
+// export const loggedInUser = createSlice({})
+
 export const {
   setItems,
   addToCart,
