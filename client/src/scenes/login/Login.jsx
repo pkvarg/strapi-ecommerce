@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import axios from 'axios'
 import { Typography } from '@mui/material'
 import { Formik, Form, Field } from 'formik'
@@ -24,6 +26,8 @@ const SubmitButton = styled(Button)({
 })
 
 const Login = () => {
+  const navigate = useNavigate()
+
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -41,9 +45,15 @@ const Login = () => {
 
       console.log(response.data) // Do something with the response data, like store a JWT token
       const token = response.data.jwt
-      console.log(token)
+      const userInfo = {
+        name: response.data.user.username,
+        email: response.data.user.email,
+        createdAt: response.data.user.createdAt,
+        token,
+      }
       if (token) {
-        localStorage.setItem('AUTH_TOKEN', token)
+        localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        navigate('/')
       }
     } catch (error) {
       console.log(error.response.data) // Handle the error response

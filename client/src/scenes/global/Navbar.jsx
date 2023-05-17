@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Badge, Box, IconButton } from '@mui/material'
 import {
@@ -15,6 +15,12 @@ const Navbar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart.cart)
+  const [isLogged, setIsLogged] = useState({})
+
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    setIsLogged(userInfo)
+  }, [])
 
   return (
     <Box
@@ -51,6 +57,7 @@ const Navbar = () => {
           <IconButton sx={{ color: 'black' }}>
             <SearchOutlined />
           </IconButton>
+          {isLogged && <p>{isLogged.email}</p>}
           <IconButton
             onClick={() => navigate('/login')}
             sx={{ color: 'black' }}
