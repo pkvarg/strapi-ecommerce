@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Typography } from '@mui/material'
 import { Formik, Form, Field } from 'formik'
-import { Link, Box, TextField } from '@mui/material'
+import { Link, Box, TextField, Container } from '@mui/material'
 import { Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { auth, provider } from './../../App'
@@ -99,7 +99,68 @@ const Login = () => {
 
   return (
     <>
-      <div>
+      {/* <Container maxWidth='sm'>
+        <div style={{ marginTop: '100px' }}>
+          <Formik
+            initialValues={{ email: '', password: '' }}
+            validate={(values) => {
+              const errors = {}
+              if (!values.email) {
+                errors.email = 'Required'
+              }
+              if (!values.password) {
+                errors.password = 'Required'
+              }
+              return errors
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2))
+                setSubmitting(false)
+              }, 400)
+            }}
+          >
+            {({ submitForm, isSubmitting }) => (
+              <Form style={{ margin: '10%' }}>
+                <Box marginBottom='50px' fontSize='30px' textAlign='center'>
+                  Login
+                </Box>
+                <Field
+                  as={TextField}
+                  name='email'
+                  type='email'
+                  label='Email'
+                  variant='outlined'
+                  fullWidth
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <Box marginTop='1rem'>
+                  <Field
+                    as={TextField}
+                    name='password'
+                    type='password'
+                    label='Password'
+                    variant='outlined'
+                    fullWidth
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </Box>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  disabled={isSubmitting}
+                  onClick={() => handleLogin()}
+                  fullWidth
+                  sx={{ marginTop: '1rem', fontSize: '20px' }}
+                >
+                  {isSubmitting ? 'Logging in...' : 'Log in'}
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </Container> */}
+      <div style={{ marginTop: '-125px' }}>
         <Formik
           initialValues={{ email: '', password: '' }}
           validate={(values) => {
@@ -155,7 +216,7 @@ const Login = () => {
           )}
         </Formik>
       </div>
-      <div>
+      <div div style={{ marginTop: '-125px' }}>
         <Box display='flex' flexDirection='column' align='center' gap='15px'>
           <Link
             href='/reset-password'

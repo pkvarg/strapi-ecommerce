@@ -12,11 +12,3 @@ body {
 .App {
   margin: auto;
 }
-
-.login-form {
-  margin-top: -100px !important;
-}
-
-.login-form-bottom {
-  margin-top: -175px !important;
-}
