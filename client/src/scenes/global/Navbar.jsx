@@ -11,6 +11,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { shades } from '../../theme'
 import { setIsCartOpen } from '../../state'
+import { toast } from 'react-hot-toast'
 
 const Navbar = () => {
   const navigate = useNavigate()
@@ -28,6 +29,7 @@ const Navbar = () => {
   const logout = () => {
     setIsLogged(false)
     localStorage.removeItem('userInfo')
+    toast.success('Logged out.')
   }
 
   return (

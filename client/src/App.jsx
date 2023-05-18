@@ -9,10 +9,12 @@ import CartMenu from './scenes/global/CartMenu'
 import Footer from './scenes/global/Footer'
 import Login from './scenes/login/Login'
 import SignUp from './scenes/login/SignUp'
+import ResetPassword from './scenes/login/ResetPassword'
 import { firebaseConfig } from './firebaseConfig'
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 import { getAnalytics } from 'firebase/analytics'
+import { Toaster } from 'react-hot-toast'
 
 export const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
@@ -40,8 +42,10 @@ function App() {
           <Route path='/checkout/success' element={<Confirmation />}></Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/sign-up' element={<SignUp />}></Route>
+          <Route path='/reset-password' element={<ResetPassword />}></Route>
         </Routes>
         <CartMenu />
+        <Toaster />
         <Footer />
       </BrowserRouter>
     </div>
