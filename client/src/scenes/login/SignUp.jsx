@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Formik, Form, Field } from 'formik'
 import { TextField, Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
+import { toast } from 'react-hot-toast'
 
 const FormContainer = styled(Form)({
   display: 'flex',
@@ -23,13 +24,13 @@ const SubmitButton = styled(Button)({
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
   })
 
   const submitFormular = async () => {
-    //event.preventDefault();
+    //event.preventDefault()
     try {
       const response = await axios.post(
         'https://pic-api.click/api/auth/local/register',
@@ -39,9 +40,12 @@ const SignUp = () => {
           password: formData.password,
         }
       )
-      console.log(response.data)
+      // console.log(formData)
+      toast.success('Sign Up successful')
+      console.log(response)
       // redirect user to success page or login page
     } catch (error) {
+      toast.error(error.response.data.error.message)
       console.log(error)
       // display error message to user
     }
@@ -54,7 +58,7 @@ const SignUp = () => {
     }))
   }
 
-  console.log(formData)
+  //console.log(formData)
 
   return (
     <Formik
@@ -82,6 +86,7 @@ const SignUp = () => {
         }
         return errors
       }}
+      //onSubmit={submitFormular()}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2))

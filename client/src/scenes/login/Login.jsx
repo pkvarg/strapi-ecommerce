@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Typography } from '@mui/material'
 import { Formik, Form, Field } from 'formik'
-import { Link, Box, TextField, Container } from '@mui/material'
+import { Link, Box, TextField } from '@mui/material'
 import { Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { auth, provider } from './../../App'
@@ -30,13 +30,12 @@ const SubmitButton = styled(Button)({
 
 const Login = () => {
   const navigate = useNavigate()
-
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [googleUser, setGoogleUser] = useState('')
+  const [googleUser, setGoogleUser] = useState({})
 
-  const handleLogin = async (e) => {
+  const handleLogin = async () => {
     //e.preventDefault()
     try {
       const response = await axios.post(
@@ -59,7 +58,7 @@ const Login = () => {
       if (token) {
         toast.success('Logged in')
         localStorage.setItem('userInfo', JSON.stringify(userInfo))
-        navigate('/')
+        //navigate('/')
       }
     } catch (error) {
       toast.error(error.response.data.error.message)
@@ -99,67 +98,6 @@ const Login = () => {
 
   return (
     <>
-      {/* <Container maxWidth='sm'>
-        <div style={{ marginTop: '100px' }}>
-          <Formik
-            initialValues={{ email: '', password: '' }}
-            validate={(values) => {
-              const errors = {}
-              if (!values.email) {
-                errors.email = 'Required'
-              }
-              if (!values.password) {
-                errors.password = 'Required'
-              }
-              return errors
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2))
-                setSubmitting(false)
-              }, 400)
-            }}
-          >
-            {({ submitForm, isSubmitting }) => (
-              <Form style={{ margin: '10%' }}>
-                <Box marginBottom='50px' fontSize='30px' textAlign='center'>
-                  Login
-                </Box>
-                <Field
-                  as={TextField}
-                  name='email'
-                  type='email'
-                  label='Email'
-                  variant='outlined'
-                  fullWidth
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <Box marginTop='1rem'>
-                  <Field
-                    as={TextField}
-                    name='password'
-                    type='password'
-                    label='Password'
-                    variant='outlined'
-                    fullWidth
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </Box>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  disabled={isSubmitting}
-                  onClick={() => handleLogin()}
-                  fullWidth
-                  sx={{ marginTop: '1rem', fontSize: '20px' }}
-                >
-                  {isSubmitting ? 'Logging in...' : 'Log in'}
-                </Button>
-              </Form>
-            )}
-          </Formik>
-        </div>
-      </Container> */}
       <div style={{ marginTop: '-125px' }}>
         <Formik
           initialValues={{ email: '', password: '' }}
@@ -216,7 +154,7 @@ const Login = () => {
           )}
         </Formik>
       </div>
-      <div div style={{ marginTop: '-125px' }}>
+      <div style={{ marginTop: '-125px' }}>
         <Box display='flex' flexDirection='column' align='center' gap='15px'>
           <Link
             href='/reset-password'
@@ -226,7 +164,7 @@ const Login = () => {
           </Link>
           <Typography fontSize='20px'>Sign in with Google</Typography>
           <div>
-            <GoogleButton onClick={handleGoogleSignIn} />
+            <GoogleButton onClick={() => handleGoogleSignIn()} />
           </div>
           <Link href='/sign-up' sx={{ align: 'center', cursor: 'pointer' }}>
             New customer? Register.

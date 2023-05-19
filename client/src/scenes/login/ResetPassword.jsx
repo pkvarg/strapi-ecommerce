@@ -1,6 +1,8 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import { Typography, TextField, Button, Container, Box } from '@mui/material'
+import axios from 'axios'
+import { toast } from 'react-hot-toast'
 
 const ResetPassword = () => {
   const formik = useFormik({
@@ -8,8 +10,22 @@ const ResetPassword = () => {
       email: '',
     },
     onSubmit: (values) => {
-      // Handle form submission (e.g., send reset password email)
       console.log(values.email)
+      // Request API.
+      axios
+        .post('https://pic-api.click/api/auth/forgot-password', {
+          email: values.email, // user's email
+        })
+        .then((response) => {
+          console.log('Your user received an email')
+          toast.success('An email has been sent to you')
+        })
+        .catch((error) => {
+          console.log('An error occurred:', error.response)
+          toast.error(error.response)
+        })
+      // Handle form submission (e.g., send reset password email)
+      //console.log(values.email)
     },
   })
 
