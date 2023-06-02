@@ -157,7 +157,7 @@ const Login = () => {
       <div style={{ marginTop: '-125px' }}>
         <Box display='flex' flexDirection='column' align='center' gap='15px'>
           <Link
-            href='/reset-password'
+            href='/forgot-password'
             sx={{ align: 'center', cursor: 'pointer' }}
           >
             Forgot password?

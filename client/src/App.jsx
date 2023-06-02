@@ -9,8 +9,9 @@ import CartMenu from './scenes/global/CartMenu'
 import Footer from './scenes/global/Footer'
 import Login from './scenes/login/Login'
 import SignUp from './scenes/login/SignUp'
+import ForgotPassword from './scenes/login/ForgotPassword'
 import ResetPassword from './scenes/login/ResetPassword'
-import PasswordUpdate from './scenes/login/PasswordUpdate'
+import ChangePassword from './scenes/login/ChangePassword'
 import { firebaseConfig } from './firebaseConfig'
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
@@ -43,12 +44,9 @@ function App() {
           <Route path='/checkout/success' element={<Confirmation />}></Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/sign-up' element={<SignUp />}></Route>
+          <Route path='/forgot-password' element={<ForgotPassword />}></Route>
           <Route path='/reset-password' element={<ResetPassword />}></Route>
-          <Route path='/password-update' element={<PasswordUpdate />}></Route>
-          {/* <Route
-            path='/password-update/:code'
-            element={<PasswordUpdate />}
-          ></Route> */}
+          <Route path='/change-password' element={<ChangePassword />}></Route>
         </Routes>
         <CartMenu />
         <Toaster />

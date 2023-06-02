@@ -1,76 +1,99 @@
 import React from 'react'
-import { useFormik } from 'formik'
-import { Typography, TextField, Button, Container, Box } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { Formik, Field, Form, ErrorMessage } from 'formik'
+import { Button, TextField, Typography, Container } from '@mui/material'
+import * as Yup from 'yup'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 
+const validationSchema = Yup.object().shape({
+  newPassword: Yup.string()
+    .min(8, 'Password must be at least 8 characters')
+    .required('Required'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
+    .required('Required'),
+})
+
+const initialValues = {
+  newPassword: '',
+  confirmPassword: '',
+}
+
 const ResetPassword = () => {
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-    },
-    onSubmit: (values) => {
-      console.log(values.email)
-      // Request API.
-      axios
-        .post('https://pic-api.click/api/auth/forgot-password', {
-          email: values.email, // user's email
-        })
-        .then((response) => {
-          console.log(response)
-          console.log('Your user received an email')
-          toast.success('An email has been sent to you')
-        })
-        .catch((error) => {
-          console.log('An error occurred:', error)
-          toast.error(error.response)
-        })
-      // Handle form submission (e.g., send reset password email)
-      //console.log(values.email)
-    },
-  })
+  const navigate = useNavigate()
+  const code = window.location.search.slice(6)
+
+  const handleSubmit = (values, { resetForm }) => {
+    // Handle form submission logic here
+    axios
+      .post('https://pic-api.click/api/auth/reset-password', {
+        code,
+        password: values.newPassword,
+        passwordConfirmation: values.confirmPassword,
+      })
+      .then((response) => {
+        console.log(response)
+        toast.success('Your password has been reset.')
+        navigate('/login')
+      })
+      .catch((error) => {
+        console.log('An error occurred:', error)
+        toast.error(error.response)
+      })
+    //console.log(values)
+    resetForm()
+  }
 
   return (
     <>
       <Typography textAlign='center' marginTop='95px' fontSize='35px'>
-        Reset Your Password
+        Your New Password
       </Typography>
       <Container maxWidth='sm'>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            marginTop: '5vh',
-          }}
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
         >
-          <form onSubmit={formik.handleSubmit} style={{ width: '100%' }}>
-            <TextField
-              id='email'
-              name='email'
-              label='Your Email'
-              type='email'
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-              fullWidth
-            />
-
-            <Box sx={{ marginTop: '1rem' }}>
-              <Button
-                type='submit'
-                variant='contained'
-                color='primary'
-                fullWidth
-                sx={{ fontSize: '20px' }}
-              >
-                Reset Password
-              </Button>
-            </Box>
-          </form>
-        </Box>
+          {({ handleSubmit }) => (
+            <Form onSubmit={handleSubmit}>
+              <div>
+                <Field
+                  as={TextField}
+                  type='password'
+                  name='newPassword'
+                  label='New Password'
+                  variant='outlined'
+                  fullWidth
+                  margin='normal'
+                  helperText={
+                    <ErrorMessage name='newPassword' component='div' />
+                  }
+                />
+              </div>
+              <div>
+                <Field
+                  as={TextField}
+                  type='password'
+                  name='confirmPassword'
+                  label='Confirm Password'
+                  variant='outlined'
+                  fullWidth
+                  margin='normal'
+                  helperText={
+                    <ErrorMessage name='confirmPassword' component='div' />
+                  }
+                />
+              </div>
+              <div>
+                <Button type='submit' variant='contained' color='primary'>
+                  Update Password
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </Container>
     </>
   )
