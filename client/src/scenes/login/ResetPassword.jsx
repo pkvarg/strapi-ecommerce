@@ -17,11 +17,12 @@ const ResetPassword = () => {
           email: values.email, // user's email
         })
         .then((response) => {
+          console.log(response)
           console.log('Your user received an email')
           toast.success('An email has been sent to you')
         })
         .catch((error) => {
-          console.log('An error occurred:', error.response)
+          console.log('An error occurred:', error)
           toast.error(error.response)
         })
       // Handle form submission (e.g., send reset password email)

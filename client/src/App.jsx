@@ -10,6 +10,7 @@ import Footer from './scenes/global/Footer'
 import Login from './scenes/login/Login'
 import SignUp from './scenes/login/SignUp'
 import ResetPassword from './scenes/login/ResetPassword'
+import PasswordUpdate from './scenes/login/PasswordUpdate'
 import { firebaseConfig } from './firebaseConfig'
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
@@ -43,6 +44,11 @@ function App() {
           <Route path='/login' element={<Login />}></Route>
           <Route path='/sign-up' element={<SignUp />}></Route>
           <Route path='/reset-password' element={<ResetPassword />}></Route>
+          <Route path='/password-update' element={<PasswordUpdate />}></Route>
+          {/* <Route
+            path='/password-update/:code'
+            element={<PasswordUpdate />}
+          ></Route> */}
         </Routes>
         <CartMenu />
         <Toaster />

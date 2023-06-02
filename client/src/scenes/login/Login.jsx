@@ -58,7 +58,7 @@ const Login = () => {
       if (token) {
         toast.success('Logged in')
         localStorage.setItem('userInfo', JSON.stringify(userInfo))
-        //navigate('/')
+        navigate('/')
       }
     } catch (error) {
       toast.error(error.response.data.error.message)

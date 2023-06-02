@@ -30,6 +30,7 @@ const Navbar = () => {
     setIsLogged(false)
     localStorage.removeItem('userInfo')
     toast.success('Logged out.')
+    navigate('/')
   }
 
   return (
